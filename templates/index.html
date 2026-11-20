@@ -1,0 +1,440 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lavender Network | Dashboard</title>
+
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700;800&display=swap');
+
+        :root {
+            --background: #f8f6fc;
+            --sidebar: #f0eafa;
+            --purple: #9b7bc5;
+            --purple-dark: #75549f;
+            --purple-light: #e9def7;
+            --text: #443852;
+            --muted: #93879f;
+            --white: #ffffff;
+            --border: #eee8f5;
+            --green: #75aa91;
+            --red: #d77d91;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: var(--background);
+            color: var(--text);
+            font-family: 'DM Sans', sans-serif;
+        }
+
+        .layout {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        .sidebar {
+            width: 245px;
+            background: var(--sidebar);
+            padding: 32px 22px;
+            border-right: 1px solid var(--border);
+            flex-shrink: 0;
+        }
+
+        .brand {
+            font-size: 21px;
+            font-weight: 800;
+            color: var(--purple-dark);
+            margin-bottom: 48px;
+        }
+
+        .brand span {
+            display: block;
+            font-size: 11px;
+            font-weight: 500;
+            color: var(--muted);
+            letter-spacing: 1.5px;
+            margin-top: 5px;
+        }
+
+        .nav-label {
+            font-size: 10px;
+            font-weight: 700;
+            color: var(--muted);
+            letter-spacing: 1.5px;
+            margin: 25px 0 12px;
+        }
+
+        .nav-item {
+            padding: 12px 14px;
+            margin-bottom: 8px;
+            border-radius: 12px;
+            font-size: 13px;
+            color: #766985;
+        }
+
+        .nav-item.active {
+            background: var(--white);
+            color: var(--purple-dark);
+            font-weight: 700;
+            box-shadow: 0 3px 12px #8060a010;
+        }
+
+        .main {
+            flex: 1;
+            padding: 38px 48px;
+            min-width: 0;
+        }
+
+        .topbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 38px;
+            gap: 16px;
+        }
+
+        .eyebrow {
+            color: var(--purple);
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+        }
+
+        h1 {
+            font-size: 29px;
+            margin: 0;
+            letter-spacing: -1px;
+        }
+
+        .subtitle {
+            color: var(--muted);
+            font-size: 13px;
+            margin-top: 8px;
+        }
+
+        .profile {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 30px;
+            padding: 10px 17px;
+            font-size: 12px;
+            color: var(--purple-dark);
+            font-weight: 700;
+        }
+
+        .welcome {
+            background: linear-gradient(120deg, #e9def7, #f4eefa, #eee7f8);
+            padding: 28px 30px;
+            border-radius: 20px;
+            margin-bottom: 25px;
+        }
+
+        .welcome h2 {
+            margin: 0 0 8px;
+            font-size: 19px;
+        }
+
+        .welcome p {
+            margin: 0;
+            font-size: 13px;
+            color: #786987;
+        }
+
+        .section-title {
+            font-size: 15px;
+            font-weight: 800;
+            margin: 30px 0 15px;
+        }
+
+        .card {
+            background: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 17px;
+            padding: 23px;
+            box-shadow: 0 5px 20px #6c4d8a08;
+            margin-bottom: 18px;
+        }
+
+        .card-heading {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+        }
+
+        .card-heading h3 {
+            font-size: 15px;
+            margin: 0;
+        }
+
+        .router-info {
+            color: var(--muted);
+            font-size: 13px;
+            margin: 10px 0 20px;
+        }
+
+        .router-info strong {
+            color: var(--purple-dark);
+        }
+
+        button {
+            border: none;
+            border-radius: 11px;
+            background: var(--purple);
+            color: white;
+            padding: 13px 20px;
+            font-family: inherit;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        button:hover {
+            background: var(--purple-dark);
+            transform: translateY(-1px);
+        }
+
+        button:disabled {
+            opacity: 0.6;
+            cursor: wait;
+        }
+
+        .error {
+            background: #fff0f2;
+            border: 1px solid #f3d6dd;
+            color: #a44f66;
+            padding: 15px;
+            border-radius: 12px;
+            font-size: 12px;
+            margin: 18px 0;
+            overflow-wrap: anywhere;
+        }
+
+        .demo-notice {
+            background: #f4eefa;
+            color: #75549f;
+            border: 1px solid #e9def7;
+            border-radius: 14px;
+            padding: 17px 20px;
+            margin-bottom: 18px;
+            font-size: 12px;
+        }
+
+        .demo-notice p {
+            margin: 7px 0 0;
+            line-height: 1.6;
+        }
+
+        .results {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 18px;
+        }
+
+        .script-card {
+            background: white;
+            border: 1px solid var(--border);
+            border-radius: 17px;
+            padding: 22px;
+            min-width: 0;
+        }
+
+        .script-card h2 {
+            color: var(--purple-dark);
+            font-size: 15px;
+            margin: 0 0 18px;
+        }
+
+        .command {
+            border-top: 1px solid var(--border);
+            padding-top: 13px;
+            margin-top: 13px;
+        }
+
+        .command h3 {
+            font-size: 12px;
+            margin: 0 0 9px;
+            color: #766985;
+        }
+
+        pre {
+            background: #f7f4fb;
+            border: 1px solid #eee8f5;
+            color: #655576;
+            border-radius: 10px;
+            padding: 13px;
+            font-size: 11px;
+            line-height: 1.6;
+            white-space: pre-wrap;
+            overflow-wrap: anywhere;
+            overflow-x: auto;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .empty-state {
+            color: var(--muted);
+            font-size: 13px;
+            text-align: center;
+            padding: 25px;
+        }
+
+        .footer {
+            color: var(--muted);
+            font-size: 11px;
+            text-align: center;
+            margin-top: 35px;
+        }
+
+        @media (max-width: 760px) {
+            .sidebar {
+                display: none;
+            }
+
+            .main {
+                padding: 25px 18px;
+            }
+
+            .topbar {
+                align-items: flex-start;
+            }
+
+            h1 {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+<div class="layout">
+
+    <aside class="sidebar">
+        <div class="brand">
+            ✿ Lavender Network
+            <span>NETWORK AUTOMATION</span>
+        </div>
+
+        <div class="nav-label">WORKSPACE</div>
+        <div class="nav-item active">⌂ &nbsp; Dashboard</div>
+        <div class="nav-item">◎ &nbsp; Router Monitoring</div>
+        <div class="nav-item">⌘ &nbsp; Command Results</div>
+
+        <div class="nav-label">SYSTEM</div>
+        <div class="nav-item">⚙ &nbsp; Configuration</div>
+        <div class="nav-item">♡ &nbsp; About Project</div>
+    </aside>
+
+    <main class="main">
+
+        <div class="topbar">
+            <div>
+                <div class="eyebrow">NETWORK MANAGEMENT</div>
+                <h1>Dashboard</h1>
+                <div class="subtitle">Your network workspace, made simple.</div>
+            </div>
+
+            <div class="profile">✿ Network Admin</div>
+        </div>
+
+        <section class="welcome">
+            <h2>Welcome to Lavender Network ♡</h2>
+            <p>Monitor your router and run network diagnostic commands from one place.</p>
+        </section>
+
+        <div class="section-title">Router Connection</div>
+
+        <section class="card">
+            <div class="card-heading">
+                <h3>Router Status</h3>
+            </div>
+
+            <p class="router-info">
+                {% if demo_mode %}
+                    Demo device: <strong>Sample Cisco Router</strong>
+                {% else %}
+                    Target device: <strong>{{ router_host }}:{{ router_port }}</strong>
+                {% endif %}
+            </p>
+
+            <form method="POST" id="checkForm">
+                <button type="submit" id="runButton">
+                    ✦ Run Router Checks
+                </button>
+            </form>
+        </section>
+
+        {% if error %}
+        <div class="error">
+            <strong>Connection Error</strong><br><br>
+            {{ error }}
+        </div>
+        {% endif %}
+
+        <div class="section-title">Diagnostic Results</div>
+
+        {% if demo_mode and results %}
+        <div class="demo-notice">
+            <strong>✦ Demonstration Mode</strong>
+            <p>
+                The Cisco command outputs below are sample data for demonstration.
+                No live router connection was established.
+            </p>
+        </div>
+        {% endif %}
+
+        {% if results %}
+        <div class="results">
+
+            {% for script, commands in results.items() %}
+            <section class="script-card">
+                <h2>✧ {{ script }}</h2>
+
+                {% for command, output in commands.items() %}
+                <div class="command">
+                    <h3>⌘ {{ command }}</h3>
+                    <pre>{{ output }}</pre>
+                </div>
+                {% endfor %}
+
+            </section>
+            {% endfor %}
+
+        </div>
+
+        {% else %}
+        <section class="card empty-state">
+            <div style="font-size: 28px; margin-bottom: 10px;">♡</div>
+            <strong>No diagnostic results yet.</strong>
+            <p>Click "Run Router Checks" to display the diagnostic results.</p>
+        </section>
+        {% endif %}
+
+        <div class="footer">
+            Lavender Network · Network Automation Dashboard
+        </div>
+
+    </main>
+</div>
+
+<script>
+    document.getElementById("checkForm").addEventListener("submit", function () {
+        const button = document.getElementById("runButton");
+        button.disabled = true;
+        button.textContent = "Running diagnostics...";
+    });
+</script>
+
+</body>
+</html>
